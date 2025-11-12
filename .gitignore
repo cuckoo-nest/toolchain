@@ -6,3 +6,7 @@
 !toolchain.txt
 !README.md
 !.gitignore
+!action.yml
+
+!.github
+!.github/**/*

@@ -1,0 +1,44 @@
+name: "Setup the toolchain"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Hash action workspace
+      id: hash
+      shell: bash
+      run: |
+        echo "hash=$(find "${{ github.action_path }}" -type f -exec sha1sum {} \; | sha1sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache toolchain
+      uses: actions/cache@v4
+      with:
+        path: ${{ github.action_path }}
+        key: toolchain-${{ steps.hash.outputs.hash }}
+
+    - name: Ensure bootstrap.sh is present and executable
+      shell: bash
+      run: |
+        set -eu
+        BOOTSTRAP="${{ github.action_path }}/bootstrap.sh"
+        if [ ! -f "$BOOTSTRAP" ]; then
+          echo "bootstrap.sh not found in action workspace" >&2
+          exit 1
+        fi
+        chmod +x "$BOOTSTRAP"
+
+    - name: Run bootstrap.sh and export results
+      shell: bash
+      run: |
+        set -eu
+        OUTPUT="$("${{ github.action_path }}/bootstrap.sh")"
+        EXIT_CODE=$?
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "bootstrap.sh failed with exit code $EXIT_CODE" >&2
+          exit $EXIT_CODE
+        fi
+
+        CURRENT_PATH="$(cat "$GITHUB_PATH")"
+        echo "$CURRENT_PATH"
+
+        cat "$GITHUB_PATH"
+        echo "_5735245e1d5c433a661f2084a6657db18b3ec033=$OUTPUT" >> "$GITHUB_ENV"

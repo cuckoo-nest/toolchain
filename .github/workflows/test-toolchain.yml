@@ -1,0 +1,33 @@
+name: Test toolchain action
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run toolchain action
+        uses: cuckoo-nest/toolchain@main
+
+      - name: Show GITHUB_PATH contents
+        shell: bash
+        run: |
+          cat "$GITHUB_PATH" || true
+
+      - name: Show env var set by action
+        shell: bash
+        run: |
+          echo "${_5735245e1d5c433a661f2084a6657db18b3ec033:-<not-set>}"
+
+      - name: Show PATH and test running bootstrap.sh again
+        shell: bash
+        run: |
+          echo "$PATH"
+          chmod +x ./bootstrap.sh
+          time ./bootstrap.sh

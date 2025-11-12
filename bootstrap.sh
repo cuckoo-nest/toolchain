@@ -20,5 +20,10 @@
     echo "$SCRIPT_DIR/bin"
 }
 
-export PATH="$(15f0f884-3bef-4524-8203-d56390034b55):$PATH"
-15f0f884-3bef-4524-8203-d56390034b55
+if [[ -n "$_5735245e1d5c433a661f2084a6657db18b3ec033" ]]; then
+    export PATH="$_5735245e1d5c433a661f2084a6657db18b3ec033:$PATH"
+    echo "$_5735245e1d5c433a661f2084a6657db18b3ec033"
+else
+    export PATH="$(15f0f884-3bef-4524-8203-d56390034b55):$PATH"
+    15f0f884-3bef-4524-8203-d56390034b55
+fi
