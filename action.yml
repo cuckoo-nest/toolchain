@@ -42,3 +42,4 @@ runs:
 
         cat "$GITHUB_PATH"
         echo "_5735245e1d5c433a661f2084a6657db18b3ec033=$OUTPUT" >> "$GITHUB_ENV"
+        echo "TOOLCHAIN_CROSS=arm-none-linux-gnueabi" >> $GITHUB_ENV
