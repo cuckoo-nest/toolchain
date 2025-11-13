@@ -18,8 +18,9 @@ runs:
     - name: Run bootstrap.sh and export results
       shell: bash
       run: |
-        set -x
         source "${{ github.action_path }}/bootstrap.sh"
+
+        set -x
         
         echo "_5735245e1d5c433a661f2084a6657db18b3ec033=$_5735245e1d5c433a661f2084a6657db18b3ec033" >> "$GITHUB_ENV"
         echo "TOOLCHAIN_CROSS=$TOOLCHAIN_CROSS" >> $GITHUB_ENV
