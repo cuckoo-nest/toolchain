@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run toolchain action
-        uses: cuckoo-nest/toolchain@arm-toolchain
+        uses: cuckoo-nest/toolchain@main
 
       - name: Show GITHUB_PATH contents
         shell: bash
