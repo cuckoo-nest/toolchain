@@ -15,22 +15,10 @@ runs:
         path: ${{ github.action_path }}
         key: toolchain-${{ steps.hash.outputs.hash }}
 
-    - name: Ensure bootstrap.sh is present and executable
-      shell: bash
-      run: |
-        set -eu
-        BOOTSTRAP="${{ github.action_path }}/bootstrap.sh"
-        if [ ! -f "$BOOTSTRAP" ]; then
-          echo "bootstrap.sh not found in action workspace" >&2
-          exit 1
-        fi
-        chmod +x "$BOOTSTRAP"
-
     - name: Run bootstrap.sh and export results
       shell: bash
       run: |
-        set -eu
-        
+        set -x
         source "${{ github.action_path }}/bootstrap.sh"
         
         echo "_5735245e1d5c433a661f2084a6657db18b3ec033=$_5735245e1d5c433a661f2084a6657db18b3ec033" >> "$GITHUB_ENV"
