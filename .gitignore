@@ -1,12 +1,2 @@
 # Ignore everything
-*
-
-# But do not ignore these files
-!bootstrap.sh
-!toolchain.txt
-!README.md
-!.gitignore
-!action.yml
-
-!.github
-!.github/**/*
+.cache/
