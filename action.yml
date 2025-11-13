@@ -3,6 +3,12 @@ name: "Setup the toolchain"
 runs:
   using: "composite"
   steps:
+    - name: Get action absolute path
+      id: path
+      shell: bash
+      run: |
+        echo "path=$(realpath "${{ github.action_path }}")" >> $GITHUB_OUTPUT
+      
     - name: Hash action workspace
       id: hash
       shell: bash
@@ -13,13 +19,13 @@ runs:
       uses: actions/cache/restore@v4
       id: cache
       with:
-        path: ${{ github.action_path }}/.cache
+        path: ${{ steps.path.outputs.path }}/.cache
         key: toolchain-${{ steps.hash.outputs.hash }}
 
     - name: Run bootstrap.sh
       shell: bash
       run: |
-        OUTPUT="$(source "${{ github.action_path }}/bootstrap.sh")"
+        OUTPUT="$(source "${{ steps.path.outputs.path }}/bootstrap.sh")"
         eval "$OUTPUT"
         
         echo "$OUTPUT" >> "$GITHUB_ENV"
@@ -30,7 +36,7 @@ runs:
       uses: actions/cache/save@v4
       if: steps.cache.outputs.cache-hit != 'true'
       with:
-        path: ${{ github.action_path }}/.cache
+        path: ${{ steps.path.outputs.path }}/.cache
         key: toolchain-${{ steps.hash.outputs.hash }}
 
     - name: Show GCC info
